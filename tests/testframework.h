@@ -20,7 +20,9 @@ namespace TestFramework{
 		++totalcount;
 		printf(".");
 		T retval;
+#ifdef __UCLIBCXX_EXCEPTION_SUPPORT__
 		try{
+#endif
 			retval = f();
 			if( val == retval){
 				++goodcount;
@@ -28,14 +30,17 @@ namespace TestFramework{
 				printf("(%lu)", totalcount);
 				++badcount;
 			}
+#ifdef __UCLIBCXX_EXCEPTION_SUPPORT__
 		}
 		catch (...) {
 			printf("(e%lu)", totalcount);
 			++badcount;
 		}
+#endif
 	}
 
 	template <typename T> void AssertThrows( void (*f)()){
+#ifdef __UCLIBCXX_EXCEPTION_SUPPORT__
 		++totalcount;
 		printf(".");
 		try {
@@ -52,7 +57,7 @@ namespace TestFramework{
 			//Caught the wrong type of exception
 			++badcount;
 		}
-
+#endif
 	}
 
 
