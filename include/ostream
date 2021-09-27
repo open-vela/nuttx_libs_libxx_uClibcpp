@@ -58,6 +58,14 @@ namespace std {
 		{
 			basic_ios<charT,traits>::init(sb);
 		}
+
+		_UCXXEXPORT basic_ostream(basic_streambuf<charT,traits>* sb, ios_base::fmtflags fmtfl)
+			: basic_ios<charT, traits>(sb)
+		{
+			basic_ios<charT,traits>::init(sb);
+			ios_base::setf(fmtfl);
+		}
+
 		virtual _UCXXEXPORT ~basic_ostream();
 
 		class sentry;

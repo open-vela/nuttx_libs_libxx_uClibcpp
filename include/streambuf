@@ -33,9 +33,6 @@ namespace std{
 
 	template <class charT, class traits> class _UCXXEXPORT basic_streambuf{
 	public:
-#ifdef __UCLIBCXX_SUPPORT_CDIR__
-		friend ios_base::Init::Init();
-#endif
 	// Types:
 		typedef charT				char_type;
 		typedef typename traits::int_type	int_type;
@@ -115,6 +112,9 @@ namespace std{
 			: myLocale(),
 			mgbeg(0), mgnext(0), mgend(0), mpbeg(0), mpnext(0), mpend(0),
 			openedFor(0)
+		{ }
+		basic_streambuf(ios_base::openmode opdfor)
+			: openedFor(opdfor)
 		{ }
 		basic_streambuf<char, char_traits<char> > & operator=(const basic_streambuf<char, char_traits<char> > &){
 			return *this;

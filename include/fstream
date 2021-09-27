@@ -53,9 +53,6 @@ namespace std{
 	template <class charT, class traits> class _UCXXEXPORT basic_filebuf
 		: public basic_streambuf<charT,traits>
 	{
-#ifdef __UCLIBCXX_SUPPORT_CDIR__
-		friend ios_base::Init::Init();	//Needed for cout/cin stuff
-#endif
 	public:
 		// Types (inherited from basic_streambuf:
 		typedef typename basic_streambuf<charT, traits>::char_type	char_type;
@@ -79,6 +76,18 @@ namespace std{
 				gbuffer + __UCLIBCXX_IOSTREAM_BUFSIZE__);
 		}
 
+		_UCXXEXPORT basic_filebuf(FILE *p, ios_base::openmode opdfor)
+			: basic_streambuf<charT, traits>(opdfor), fp(p), pbuffer(0),
+				gbuffer(0), append(false)
+		{
+			pbuffer = new char_type[__UCLIBCXX_IOSTREAM_BUFSIZE__];
+			gbuffer = new char_type[__UCLIBCXX_IOSTREAM_BUFSIZE__];
+
+			this->setp(pbuffer, pbuffer + __UCLIBCXX_IOSTREAM_BUFSIZE__);
+			//Position get buffer so that there is no data available
+			this->setg(gbuffer, gbuffer + __UCLIBCXX_IOSTREAM_BUFSIZE__,
+				gbuffer + __UCLIBCXX_IOSTREAM_BUFSIZE__);
+		}
 
 		_UCXXEXPORT virtual ~basic_filebuf(){
 			sync();

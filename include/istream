@@ -55,6 +55,10 @@ namespace std{
 		{
 			basic_ios<charT, traits>::init(sb);
 		}
+		explicit basic_istream(basic_streambuf<charT,traits>* sb, basic_ostream<charT,traits>* tied)
+			: basic_ios<charT, traits>(sb, tied), count_last_ufmt_input(0)
+		{
+		}
 		virtual ~basic_istream() { }
 
 		class sentry;

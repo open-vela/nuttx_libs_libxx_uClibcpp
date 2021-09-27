@@ -29,32 +29,31 @@ namespace std{
 
 
 #ifdef __UCLIBCXX_SUPPORT_CDIR__
-	_UCXXLOCAL int ios_base::Init::init_cnt = 0;	//Needed to ensure the static value is created
 
 //Create buffers first
 #ifdef __UCLIBCXX_SUPPORT_COUT__
-	_UCXXEXPORT filebuf _cout_filebuf;
+	_UCXXEXPORT filebuf _cout_filebuf(stdout, ios_base::out);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CIN__
-	_UCXXEXPORT filebuf _cin_filebuf;
+	_UCXXEXPORT filebuf _cin_filebuf(stdin, ios_base::in);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CERR__
-	_UCXXEXPORT filebuf _cerr_filebuf;
+	_UCXXEXPORT filebuf _cerr_filebuf(stderr, ios_base::out);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CLOG__
-	_UCXXEXPORT filebuf _clog_filebuf;
+	_UCXXEXPORT filebuf _clog_filebuf(stderr, ios_base::out);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCOUT__
-	_UCXXEXPORT wfilebuf _wcout_filebuf;
+	_UCXXEXPORT wfilebuf _wcout_filebuf(stdout, ios_base::out);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCIN__
-	_UCXXEXPORT wfilebuf _wcin_filebuf;
+	_UCXXEXPORT wfilebuf _wcin_filebuf(stdin, ios_base::in);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCERR__
-	_UCXXEXPORT wfilebuf _wcerr_filebuf;
+	_UCXXEXPORT wfilebuf _wcerr_filebuf(stderr, ios_base::out);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCLOG__
-	_UCXXEXPORT wfilebuf _wclog_filebuf;
+	_UCXXEXPORT wfilebuf _wclog_filebuf(stderr, ios_base::out);
 #endif
 
 //Then create streams
@@ -62,10 +61,10 @@ namespace std{
 	_UCXXEXPORT ostream cout(&_cout_filebuf);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CIN__
-	_UCXXEXPORT istream cin(&_cin_filebuf);
+	_UCXXEXPORT istream cin(&_cin_filebuf, &cout);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CERR__
-	_UCXXEXPORT ostream cerr(&_cerr_filebuf);
+	_UCXXEXPORT ostream cerr(&_cerr_filebuf, ios_base::unitbuf);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_CLOG__
 	_UCXXEXPORT ostream clog(&_clog_filebuf);
@@ -80,66 +79,9 @@ namespace std{
 	_UCXXEXPORT wostream wcerr(&_wcerr_filebuf);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCLOG__
-	_UCXXEXPORT wostream wclog(&_wclog_filebuf);
+	_UCXXEXPORT wostream wclog(&_wclog_filebuf, &wcout);
 #endif
 
-
-	_UCXXEXPORT ios_base::Init::Init(){
-		if(init_cnt == 0){	//Need to construct cout et al
-#ifdef __UCLIBCXX_SUPPORT_COUT__
-			_cout_filebuf.fp = stdout;
-			_cout_filebuf.openedFor = ios_base::out;
-#endif
-#ifdef __UCLIBCXX_SUPPORT_CERR__
-			_cerr_filebuf.fp = stderr;
-			_cerr_filebuf.openedFor = ios_base::out;
-			cerr.mformat |= ios_base::unitbuf;
-#endif
-#ifdef __UCLIBCXX_SUPPORT_CLOG__
-			_clog_filebuf.fp = stderr;
-			_clog_filebuf.openedFor = ios_base::out;
-#endif
-#ifdef __UCLIBCXX_SUPPORT_CIN__
-			_cin_filebuf.fp = stdin;
-			_cin_filebuf.openedFor = ios_base::in;
-
-#ifdef __UCLIBCXX_SUPPORT_COUT__
-			cin.tie(&cout);
-#endif
-
-#endif
-#ifdef __UCLIBCXX_SUPPORT_WCOUT__
-			_wcout_filebuf.fp = stdout;
-			_wcout_filebuf.openedFor = ios_base::out;
-#endif
-#ifdef __UCLIBCXX_SUPPORT_WCERR__
-			_wcerr_filebuf.fp = stderr;
-			_wcerr_filebuf.openedFor = ios_base::out;
-			wcerr.mformat |= ios_base::unitbuf;
-#endif
-#ifdef __UCLIBCXX_SUPPORT_WCLOG__
-			_wclog_filebuf.fp = stderr;
-			_wclog_filebuf.openedFor = ios_base::out;
-#endif
-#ifdef __UCLIBCXX_SUPPORT_WCIN__
-			_wcin_filebuf.fp = stdin;
-			_wcin_filebuf.openedFor = ios_base::in;
-
-#ifdef __UCLIBCXX_SUPPORT_WCOUT__
-			wcin.tie(&wcout);
-#endif
-
-#endif
-		}
-		init_cnt++;
-	}
-
-	_UCXXEXPORT ios_base::Init::~Init(){
-		--init_cnt;
-		if(init_cnt==0){
-
-		}
-	}
 #endif
 
 
@@ -181,7 +123,7 @@ namespace std{
 		locale retval = mLocale;
 		mLocale = loc;
 		return retval;
-	}	
+	}
 
 }
 
