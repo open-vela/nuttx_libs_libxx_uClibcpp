@@ -29,57 +29,68 @@
 
 namespace std{
 
-	struct _UCXXEXPORT __true_type{};
-	struct _UCXXEXPORT __false_type{};
+	template <class T, T v> struct _UCXXEXPORT integral_constant {
+		static const T value = v;
+		typedef T value_type;
+		typedef integral_constant type;
+		operator T() const _UCXX_USE_NOEXCEPT{ return v; }
+		T operator()() const _UCXX_USE_NOEXCEPT{ return v; }
+	};
+
+	typedef integral_constant<bool,true> true_type;
+	typedef integral_constant<bool,false> false_type;
+
+	template <class T, class U> struct _UCXXEXPORT is_same : public false_type {};
+	template <class T> struct _UCXXEXPORT is_same<T, T>    : public true_type  {};
 
 	template <class I> class _UCXXEXPORT __is_integer{
 	public:
-		typedef __false_type value;
+		typedef false_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <unsigned int>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <signed int>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <short unsigned int>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <short signed int>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <char>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <signed char>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <unsigned char>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <long unsigned int>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 	template <> class _UCXXEXPORT __is_integer <long signed int>{
 	public:
-		typedef __true_type value;
+		typedef true_type value;
 	};
 
 
