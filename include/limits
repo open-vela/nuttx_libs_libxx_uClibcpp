@@ -634,10 +634,10 @@ public:
 
 	static numeric_type epsilon () { return __DBL_EPSILON__; }
 	static numeric_type round_error () { return 0.5; }
-	static const int min_exponent10 = -1; //How do I properly get this?
-	static const int max_exponent10 = -1; //How do I properly get this?
-	static const int min_exponent   = -1; //How do I properly get this?
-	static const int max_exponent   = -1; //How do I properly get this?
+	static const int min_exponent10 = __DBL_MIN_10_EXP__;
+	static const int max_exponent10 = __DBL_MAX_10_EXP__;
+	static const int min_exponent   = __DBL_MIN_EXP__;
+	static const int max_exponent   = __DBL_MAX_EXP__;
 	static const bool has_infinity  = false; //I don't know, so until I can find out, I'm saying no
 	static const bool has_quiet_NaN = false; //I don't know, so until I can find out, I'm saying no
 	static const bool has_signaling_NaN = false; //I don't know, so until I can find out, I'm saying no
