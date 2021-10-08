@@ -23,6 +23,7 @@
 #include <iterator_base>
 #include <utility>
 #include <cstdio>
+#include <type_traits>
 
 #ifndef HEADER_STD_MEMORY
 #define HEADER_STD_MEMORY 1
@@ -187,6 +188,335 @@ public:
 	}
 	
 };
+
+template <class T> struct _UCXXEXPORT default_delete{
+
+public:
+	default_delete() _UCXX_USE_NOEXCEPT = default;
+
+	template <class U>
+	default_delete(const default_delete<U>&) _UCXX_USE_NOEXCEPT{}
+
+	void operator()(T* x) const _UCXX_USE_NOEXCEPT{
+		delete x;
+	}
+};
+
+template <class T> struct _UCXXEXPORT default_delete<T[]>{
+
+public:
+	default_delete() _UCXX_USE_NOEXCEPT = default;
+
+	template <class U>
+	default_delete(const default_delete<U[]>&) _UCXX_USE_NOEXCEPT{};
+
+	void operator()(T* x) const _UCXX_USE_NOEXCEPT{
+		delete[] x;
+	}
+};
+
+template <class T, class D = default_delete<T> > class _UCXXEXPORT unique_ptr {
+
+private:
+	T *object;
+	D deleter;
+
+public:
+	typedef T* pointer;
+	typedef T element_type;
+	typedef D deleter_type;
+
+	// default constructor
+	unique_ptr() _UCXX_USE_NOEXCEPT : object(pointer()) {}
+
+	// null pointer constructor
+	unique_ptr(nullptr_t) _UCXX_USE_NOEXCEPT : object(pointer()) {}
+
+	// pointer constructor
+	explicit unique_ptr(pointer p) _UCXX_USE_NOEXCEPT : object(p) {}
+
+	// construct from pointer + lvalue deleter
+	unique_ptr(pointer p, typename conditional<
+		is_reference<deleter_type>::value, deleter_type, const deleter_type&
+	>::type d)
+	_UCXX_USE_NOEXCEPT : object(p), deleter(d) {}
+
+	// construct from pointer + rvalue deleter
+	unique_ptr(pointer p, typename remove_reference<deleter_type>::type&& d)
+	_UCXX_USE_NOEXCEPT : object(p), deleter(std::move(d)) {}
+
+	// construct from nullptr + lvalue deleter
+	unique_ptr(nullptr_t, typename conditional<
+		is_reference<deleter_type>::value, deleter_type, const deleter_type&
+	>::type d)
+	_UCXX_USE_NOEXCEPT : object(pointer()), deleter(d) {}
+
+	// construct from nullptr + rvalue deleter
+	unique_ptr(nullptr_t, typename remove_reference<deleter_type>::type&& d)
+	_UCXX_USE_NOEXCEPT : object(pointer()), deleter(std::move(d)) {}
+
+	// move constructor
+	unique_ptr(unique_ptr&& u) _UCXX_USE_NOEXCEPT
+	: object(u.release()), deleter(std::forward<deleter_type>(u.get_deleter())) {}
+
+	// move-cast constructor
+	template <class U, class E>
+	unique_ptr(unique_ptr<U,E>&& u) _UCXX_USE_NOEXCEPT
+	: object(u.release()), deleter(std::forward<E>(u.get_deleter())) {}
+
+	// construct from auto_ptr
+	template <class U>
+	unique_ptr(auto_ptr<U>&& a) _UCXX_USE_NOEXCEPT
+	: object(a.release()) {}
+
+	// copy (deleted!)
+	unique_ptr(const unique_ptr&) = delete;
+
+	~unique_ptr() {
+		reset();
+	}
+
+	// move assignment
+	unique_ptr& operator=(unique_ptr&& u) _UCXX_USE_NOEXCEPT{
+		reset(u.release());
+		get_deleter() = std::forward<deleter_type>(u.get_deleter());
+		return *this;
+	}
+
+	// assign null pointer
+	unique_ptr& operator=(nullptr_t) _UCXX_USE_NOEXCEPT{
+		reset();
+		return *this;
+	}
+
+	// type-cast assignment
+	template <class U, class E>
+	unique_ptr& operator=(unique_ptr<U,E>&& u) _UCXX_USE_NOEXCEPT{
+		reset(u.release());
+		get_deleter() = std::forward<E>(u.get_deleter());
+		return *this;
+	}
+
+	// assign auto_ptr
+	template <class U>
+	unique_ptr& operator=(auto_ptr<U> a) _UCXX_USE_NOEXCEPT{
+		reset(a.release());
+		return *this;
+	}
+
+	// copy assignment (deleted!)
+	unique_ptr& operator=(const unique_ptr&) = delete;
+
+	// observers
+	element_type& operator*() const {
+		return *object;
+	}
+
+	pointer operator->() const _UCXX_USE_NOEXCEPT{
+		return object;
+	}
+
+	pointer get() const _UCXX_USE_NOEXCEPT{
+		return object;
+	}
+
+	deleter_type& get_deleter() _UCXX_USE_NOEXCEPT{
+		return deleter;
+	}
+
+	const deleter_type& get_deleter() const _UCXX_USE_NOEXCEPT{
+		return deleter;
+	}
+
+	explicit operator bool() const _UCXX_USE_NOEXCEPT{
+		return object != nullptr;
+	}
+
+	// modifiers
+	pointer release() _UCXX_USE_NOEXCEPT{
+		pointer tmp = object;
+		object = pointer();
+		return tmp;
+  	}
+
+	void reset(pointer p) _UCXX_USE_NOEXCEPT{
+		pointer tmp = object;
+		object = p;
+		if (tmp)
+			deleter(tmp);
+	}
+
+	void reset(nullptr_t = nullptr) _UCXX_USE_NOEXCEPT{
+		pointer tmp = object;
+		object = nullptr;
+		if (tmp)
+			deleter(tmp);
+	}
+
+	void swap(unique_ptr& u) _UCXX_USE_NOEXCEPT{
+		swap(object, u.object);
+		swap(deleter, u.deleter);
+	}
+};
+
+template <class T, class D> class unique_ptr<T[], D>{
+
+private:
+	T *object;
+	D deleter;
+
+public:
+	typedef T* pointer;
+	typedef T element_type;
+	typedef D deleter_type;
+
+	// default constructor
+	unique_ptr() _UCXX_USE_NOEXCEPT : object(pointer()) {}
+
+	// null pointer constructor
+	unique_ptr(nullptr_t) _UCXX_USE_NOEXCEPT : object(pointer()) {}
+
+	// pointer constructor
+	explicit unique_ptr(pointer p) _UCXX_USE_NOEXCEPT : object(p) {}
+
+	// construct from pointer + lvalue deleter
+	unique_ptr(pointer p, typename conditional<
+		is_reference<deleter_type>::value, deleter_type, const deleter_type&
+	>::type d)
+	_UCXX_USE_NOEXCEPT : object(p), deleter(d) {}
+
+	// construct from pointer + rvalue deleter
+	unique_ptr(pointer p, typename remove_reference<deleter_type>::type&& d)
+	_UCXX_USE_NOEXCEPT : object(p), deleter(std::move(d)) {}
+
+	// construct from nullptr + lvalue deleter
+	unique_ptr(nullptr_t, typename conditional<
+		is_reference<deleter_type>::value, deleter_type, const deleter_type&
+	>::type d)
+	_UCXX_USE_NOEXCEPT : object(pointer()), deleter(d) {}
+
+	// construct from nullptr + rvalue deleter
+	unique_ptr(nullptr_t, typename remove_reference<deleter_type>::type&& d)
+	_UCXX_USE_NOEXCEPT : object(pointer()), deleter(std::move(d)) {}
+
+	// move constructor
+	unique_ptr(unique_ptr&& u) _UCXX_USE_NOEXCEPT
+	: object(u.release()), deleter(std::forward<deleter_type>(u.get_deleter())) {}
+
+	// move-cast constructor
+	template <class U, class E>
+	unique_ptr(unique_ptr<U,E>&& u) _UCXX_USE_NOEXCEPT
+	: object(u.release()), deleter(std::forward<E>(u.get_deleter())) {}
+
+	// copy (deleted!)
+	unique_ptr(const unique_ptr&) = delete;
+
+	~unique_ptr() {
+		reset();
+	}
+
+	// move assignment
+	unique_ptr& operator=(unique_ptr&& u) _UCXX_USE_NOEXCEPT{
+		reset(u.release());
+		get_deleter() = std::forward<deleter_type>(u.get_deleter());
+		return *this;
+	}
+
+	// assign null pointer
+	unique_ptr& operator=(nullptr_t) _UCXX_USE_NOEXCEPT{
+		reset();
+		return *this;
+	}
+
+	// type-cast assignment
+	template <class U, class E>
+	unique_ptr& operator=(unique_ptr<U,E>&& u) _UCXX_USE_NOEXCEPT{
+		reset(u.release());
+		get_deleter() = std::forward<E>(u.get_deleter());
+		return *this;
+	}
+
+	// copy assignment (deleted!)
+	unique_ptr& operator=(const unique_ptr&) = delete;
+
+	// observers
+	element_type& operator[](size_t i) const {
+		return object[i];
+	}
+
+	pointer get() const _UCXX_USE_NOEXCEPT{
+		return object;
+	}
+
+	deleter_type& get_deleter() _UCXX_USE_NOEXCEPT{
+		return deleter;
+	}
+
+	const deleter_type& get_deleter() const _UCXX_USE_NOEXCEPT{
+		return deleter;
+	}
+
+	explicit operator bool() const _UCXX_USE_NOEXCEPT{
+		return object != nullptr;
+	}
+
+	// modifiers
+	pointer release() _UCXX_USE_NOEXCEPT{
+		pointer tmp = object;
+		object = pointer();
+		return tmp;
+  	}
+
+	template <class P>
+	void reset(P p) _UCXX_USE_NOEXCEPT{
+		pointer tmp = object;
+		object = p;
+		if (tmp)
+			deleter(tmp);
+	}
+
+	void reset(nullptr_t = nullptr) _UCXX_USE_NOEXCEPT{
+		pointer tmp = object;
+		object = nullptr;
+		if (tmp)
+			deleter(tmp);
+	}
+
+	void swap(unique_ptr& u) _UCXX_USE_NOEXCEPT{
+		swap(object, u.object);
+		swap(deleter, u.deleter);
+	}
+};
+
+template <class T1, class D1, class T2, class D2>
+inline bool operator==(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y) {
+	return x.get() == y.get();
+}
+
+template <class T1, class D1>
+inline bool operator==(const unique_ptr<T1, D1>& x, nullptr_t) {
+	return !x;
+}
+
+template <class T1, class D1>
+inline bool operator==(nullptr_t, const unique_ptr<T1, D1>& x) {
+	return !x;
+}
+
+template <class T1, class D1, class T2, class D2>
+inline bool operator!=(const unique_ptr<T1, D1>& x, const unique_ptr<T2, D2>& y) {
+	return x.get() != y.get();
+}
+
+template <class T1, class D1>
+inline bool operator!=(const unique_ptr<T1, D1>& x, nullptr_t) {
+	return static_cast<bool>(x);
+}
+
+template <class T1, class D1>
+inline bool operator!=(nullptr_t, const unique_ptr<T1, D1>& x) {
+	return static_cast<bool>(x);
+}
 
 }	//namespace std
 
