@@ -20,6 +20,7 @@
 #include <memory>
 #include <iterator>
 #include <algorithm>
+#include <utility>
 
 #ifndef __STD_HEADER_LIST
 #define __STD_HEADER_LIST 1
@@ -101,7 +102,9 @@ namespace std{
 		void push_front(const T& x);
 		void pop_front();
 		void push_back(const T& x);
+		void push_back(T&& x);
 		void pop_back();
+		template <class... Args> void emplace_back(Args&&... args);
 		iterator insert(iterator position, const T& x = T());
 		void     insert(iterator position, size_type n, const T& x);
 		template <class InputIterator> void insert(iterator position, InputIterator first, InputIterator last);
@@ -143,6 +146,14 @@ namespace std{
 		}
 		node(const T & t, node * p, node * n): previous(p), next(n), val(0) {
 			val = new T(t);
+		}
+		template <class... Args>
+		node(Args&&... args): previous(0), next(0), val(0) {
+			val = new T(std::forward<Args>(args)...);
+		}
+		template <class... Args>
+		node(Args&&... args, node * p, node * n): previous(p), next(n), val(0) {
+			val = new T(std::forward<Args>(args)...);
 		}
 		~node(){ }
 	};
@@ -427,6 +438,24 @@ namespace std{
 		}
 	}
 
+	template<class T, class Allocator> void list<T, Allocator>::push_back(T&& x){
+		if(elements == 0){
+			//The list is completely empty
+			list_start = new node(std::move(x));
+			list_end->previous = list_start;
+			list_start->previous = 0;
+			list_start->next = list_end;
+			elements = 1;
+		}else{
+			node * temp = new node(std::move(x));
+			temp->previous = list_end->previous;
+			temp->next = list_end;
+			list_end->previous->next = temp;
+			list_end->previous = temp;
+			++elements;
+		}
+	}
+
 	template<class T, class Allocator> void list<T, Allocator>::pop_back(){
 		if(elements > 0){
 			node * temp = list_end->previous;
@@ -451,6 +480,24 @@ namespace std{
 		}
 	}
 
+	template<class T, class Allocator>
+	template<class... Args> void list<T, Allocator>::emplace_back(Args&&... args){
+		if(elements == 0){
+			//The list is completely empty
+			list_start = new node(std::forward<Args>(args)...);
+			list_end->previous = list_start;
+			list_start->previous = 0;
+			list_start->next = list_end;
+			elements = 1;
+		}else{
+			node * temp = new node(std::forward<Args>(args)...);
+			temp->previous = list_end->previous;
+			temp->next = list_end;
+			list_end->previous->next = temp;
+			list_end->previous = temp;
+			++elements;
+		}
+	}
 
 	template<class T, class Allocator> typename list<T, Allocator>::iterator
 		list<T, Allocator>::insert(iterator position, const T& x)
