@@ -364,6 +364,20 @@ namespace std{
 		return result;
 	}
 
+	template<class InputIterator, class Size, class OutputIterator>
+		OutputIterator
+		copy_n(InputIterator first, Size n, OutputIterator result)
+	{
+		while(n > 0){
+			*result = *first;
+			++result;
+			++first;
+			--n;
+		}
+		return result;
+	}
+
+
 	template<class BidirectionalIterator1, class BidirectionalIterator2> _UCXXEXPORT
 		BidirectionalIterator2
 		copy_backward(BidirectionalIterator1 first, BidirectionalIterator1 last,
