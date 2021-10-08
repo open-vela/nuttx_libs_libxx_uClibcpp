@@ -43,6 +43,10 @@ namespace std{
 	template <class T, class U> struct _UCXXEXPORT is_same : public false_type {};
 	template <class T> struct _UCXXEXPORT is_same<T, T>    : public true_type  {};
 
+	template <class T> struct _UCXXEXPORT remove_reference      { typedef T type; };
+	template <class T> struct _UCXXEXPORT remove_reference<T&>  { typedef T type; };
+	template <class T> struct _UCXXEXPORT remove_reference<T&&> { typedef T type; };
+
 	template <class I> class _UCXXEXPORT __is_integer{
 	public:
 		typedef false_type value;
