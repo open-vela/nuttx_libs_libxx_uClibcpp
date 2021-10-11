@@ -71,6 +71,14 @@ namespace std {
 	using ::tan;
 	using ::tanh;
 
+	template <class T> inline bool _isfinite(T t){
+		return isfinite(t);
+	}
+#undef isfinite
+	template <class T> inline bool isfinite(T t){
+		return _isfinite(t);
+	}
+
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
 	inline float abs  (float x){
 		return fabsf(x);
