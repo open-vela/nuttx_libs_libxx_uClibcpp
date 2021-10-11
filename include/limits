@@ -111,6 +111,7 @@ public:
 	static const bool is_specialized = false;
 	static T min();
 	static T max();
+	static T lowest(); // C++11
 	static const int radix;
 	static const int digits;
 	static const int digits10;
@@ -153,6 +154,9 @@ public:
 	}
 	static T max(){
 		return true;
+	}
+	static T lowest(){
+		return min();
 	}
 	static const int radix = 2;
 	static const int digits = 1;
@@ -201,6 +205,9 @@ public:
 	static T max(){
 		return UCHAR_MAX;
 	}
+	static T lowest(){
+		return min();
+	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT;
 	static const int digits10 = __bits_to_base_10<digits>::size;
@@ -247,6 +254,9 @@ public:
 	}
 	static T max(){
 		return SCHAR_MAX;
+	}
+	static T lowest(){
+		return min();
 	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT - 1;
@@ -295,6 +305,9 @@ public:
 	static T max(){
 		return CHAR_MAX;
 	}
+	static T lowest(){
+		return min();
+	}
 	static const int radix = 2;
 	static const int digits = (CHAR_MIN != 0) ? CHAR_BIT - 1 : CHAR_BIT;
 	static const int digits10 = __bits_to_base_10<digits>::size;
@@ -341,6 +354,9 @@ public:
 	}
 	static T max(){
 		return USHRT_MAX;
+	}
+	static T lowest(){
+		return min();
 	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT * sizeof(T);
@@ -389,6 +405,9 @@ public:
 	static T max(){
 		return SHRT_MAX;
 	}
+	static T lowest(){
+		return min();
+	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT * sizeof(T);
 	static const int digits10 = __bits_to_base_10<digits>::size;
@@ -435,6 +454,9 @@ public:
 	}
 	static T max(){
 		return UINT_MAX;
+	}
+	static T lowest(){
+		return min();
 	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT * sizeof(T);
@@ -483,6 +505,9 @@ public:
 	static T max(){
 		return INT_MAX;
 	}
+	static T lowest(){
+		return min();
+	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT * sizeof(T);
 	static const int digits10 = __bits_to_base_10<digits>::size;
@@ -529,6 +554,9 @@ public:
 	}
 	static T max(){
 		return ULONG_MAX;
+	}
+	static T lowest(){
+		return min();
 	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT * sizeof(T);
@@ -577,6 +605,9 @@ public:
 	static T max(){
 		return LONG_MAX;
 	}
+	static T lowest(){
+		return min();
+	}
 	static const int radix = 2;
 	static const int digits = CHAR_BIT * sizeof(T);
 	static const int digits10 = __bits_to_base_10<digits>::size;
@@ -620,6 +651,7 @@ public:
 	static const bool is_specialized = true;
 	static numeric_type min () { return __DBL_MIN__; }
 	static numeric_type max () { return __DBL_MAX__; }
+	static numeric_type lowest () { return -__DBL_MAX__; }
 	static const int radix = __FLT_RADIX__;
 	static const int digits = __DBL_MANT_DIG__;
 	static const int digits10 = __DBL_DIG__;
@@ -659,6 +691,7 @@ public:
 	static const bool is_specialized = true;
 	static numeric_type min () { return __FLT_MIN__; }
 	static numeric_type max () { return __FLT_MAX__; }
+	static numeric_type lowest () { return -__FLT_MAX__; }
 	static const int radix = __FLT_RADIX__;
 	static const int digits = __FLT_MANT_DIG__;
 	static const int digits10 = __FLT_DIG__;
