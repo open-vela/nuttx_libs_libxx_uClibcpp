@@ -56,8 +56,10 @@ namespace std{
 				break;
 			}
 		}
+		if (c == traits::eof())
+			stream.setstate(ios_base::eofbit);
 		if (temp.size() == 0)
-			stream.setstate(ios_base::eofbit|ios_base::failbit);
+			stream.setstate(ios_base::failbit);
 
 		return temp;
 	}
@@ -81,8 +83,10 @@ namespace std{
 				break;
 			}
 		}
+		if (c == traits::eof())
+			stream.setstate(ios_base::eofbit);
 		if (temp.size() == 0)
-			stream.setstate(ios_base::eofbit|ios_base::failbit);
+			stream.setstate(ios_base::failbit);
 
 		return temp;
 	}
