@@ -220,36 +220,6 @@ namespace std{
 		bool f;
 	};
 
-	template <class T, size_t N> T *begin(T (&array)[N])
-	{
-		return array;
-	}
-
-	template <class T, size_t N> T *end(T (&array)[N])
-	{
-		return array + N;
-	}
-
-	template <class T> auto begin(T& t) -> decltype(t.begin())
-	{
-		return t.begin();
-	}
-
-	template <class T> auto begin(const T& t) -> decltype(t.begin())
-	{
-		return t.begin();
-	}
-
-	template <class T> auto end(T& t) -> decltype(t.end())
-	{
-		return t.end();
-	}
-
-	template <class T> auto end(const T& t) -> decltype(t.end())
-	{
-		return t.end();
-	}
-
 }
 
 #pragma GCC visibility pop
