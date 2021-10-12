@@ -19,6 +19,7 @@
 
 
 #include <basic_definitions>
+#include <type_traits>
 
 
 #ifndef __STD_HEADER_UTILITY
@@ -80,6 +81,16 @@ namespace std{
 		return pair<T1,T2>(x, y);
 	}
 
+	template <class T> typename std::remove_reference<T>::type&& move(T&& t) _UCXX_USE_NOEXCEPT{
+		return static_cast<typename std::remove_reference<T>::type&&>(t);
+	}
+
+	template <class T> T&& forward(typename std::remove_reference<T>::type& t) _UCXX_USE_NOEXCEPT{
+		return static_cast<T&&>(t);
+	}
+	template <class T> T&& forward(typename std::remove_reference<T>::type&& t) _UCXX_USE_NOEXCEPT{
+		return static_cast<T&&>(t);
+	}
 
 }
 
