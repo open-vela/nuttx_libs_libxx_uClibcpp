@@ -73,13 +73,13 @@ namespace std{
 	_UCXXEXPORT wostream wcout(&_wcout_filebuf);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCIN__
-	_UCXXEXPORT wistream wcin(&_wcin_filebuf);
+	_UCXXEXPORT wistream wcin(&_wcin_filebuf, &wcout);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCERR__
-	_UCXXEXPORT wostream wcerr(&_wcerr_filebuf);
+	_UCXXEXPORT wostream wcerr(&_wcerr_filebuf, ios_base::unitbuf);
 #endif
 #ifdef __UCLIBCXX_SUPPORT_WCLOG__
-	_UCXXEXPORT wostream wclog(&_wclog_filebuf, &wcout);
+	_UCXXEXPORT wostream wclog(&_wclog_filebuf);
 #endif
 
 #endif
