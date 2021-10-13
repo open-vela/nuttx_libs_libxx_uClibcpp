@@ -770,18 +770,18 @@ public:
 	static const int max_exponent10 = __DBL_MAX_10_EXP__;
 	static const int min_exponent   = __DBL_MIN_EXP__;
 	static const int max_exponent   = __DBL_MAX_EXP__;
-	static const bool has_infinity  = false; //I don't know, so until I can find out, I'm saying no
-	static const bool has_quiet_NaN = false; //I don't know, so until I can find out, I'm saying no
-	static const bool has_signaling_NaN = false; //I don't know, so until I can find out, I'm saying no
+	static const bool has_infinity  = true;
+	static const bool has_quiet_NaN = true;
+	static const bool has_signaling_NaN = true;
 	static const bool has_denorm = false; //I don't know, so until I can find out, I'm saying no
 
-	static const bool is_iec559 = false;  //I don't know, so until I can find out, I'm saying no
+	static const bool is_iec559 = true;
 	static const bool tinyness_before = false; // more questions
 	static const float_round_style round_style = round_to_nearest; // more questions
 	static numeric_type denorm_min () { return -1; } //How do I properly get this?
-	static numeric_type infinity () { return -1; } //How do I properly get this?
-	static numeric_type quiet_NaN () { return -1; } //How do I properly get this?
-	static numeric_type signaling_NaN () { return -1; } //How do I properly get this?
+	static numeric_type infinity () { return __builtin_huge_val(); }
+	static numeric_type quiet_NaN () { return __builtin_nanl(""); }
+	static numeric_type signaling_NaN () { return __builtin_nansl(""); }
 };
 
 template <> class numeric_limits<float> {
@@ -810,18 +810,18 @@ public:
 	static const int max_exponent10 = __FLT_MAX_10_EXP__;
 	static const int min_exponent   = __FLT_MIN_EXP__;
 	static const int max_exponent   = __FLT_MAX_EXP__;
-	static const bool has_infinity  = false; //I don't know, so until I can find out, I'm saying no
-	static const bool has_quiet_NaN = false; //I don't know, so until I can find out, I'm saying no
-	static const bool has_signaling_NaN = false; //I don't know, so until I can find out, I'm saying no
+	static const bool has_infinity  = true;
+	static const bool has_quiet_NaN = true;
+	static const bool has_signaling_NaN = true;
 	static const bool has_denorm = false; //I don't know, so until I can find out, I'm saying no
 
-	static const bool is_iec559 = false;  //I don't know, so until I can find out, I'm saying no
+	static const bool is_iec559 = true;
 	static const bool tinyness_before = false; // more questions
 	static const float_round_style round_style = round_to_nearest; // more questions
 	static numeric_type denorm_min () { return -1; } //How do I properly get this?
-	static numeric_type infinity () { return -1; } //How do I properly get this?
-	static numeric_type quiet_NaN () { return -1; } //How do I properly get this?
-	static numeric_type signaling_NaN () { return -1; } //How do I properly get this?
+	static numeric_type infinity () { return __builtin_huge_valf(); }
+	static numeric_type quiet_NaN () { return __builtin_nanf(""); }
+	static numeric_type signaling_NaN () { return __builtin_nansf(""); }
 };
 
 
