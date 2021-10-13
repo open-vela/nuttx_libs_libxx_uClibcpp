@@ -50,6 +50,33 @@ namespace std{
 	template <class T> struct _UCXXEXPORT remove_reference<T&>  { typedef T type; };
 	template <class T> struct _UCXXEXPORT remove_reference<T&&> { typedef T type; };
 
+	template <class T> struct _UCXXEXPORT is_const          : public false_type {};
+	template <class T> struct _UCXXEXPORT is_const<T const> : public true_type  {};
+
+	template <class T> struct _UCXXEXPORT is_volatile             : public false_type {};
+	template <class T> struct _UCXXEXPORT is_volatile<T volatile> : public true_type  {};
+
+	template <class T> struct _UCXXEXPORT remove_cv                   { typedef T type; };
+	template <class T> struct _UCXXEXPORT remove_cv<const T>          { typedef T type; };
+	template <class T> struct _UCXXEXPORT remove_cv<volatile T>       { typedef T type; };
+	template <class T> struct _UCXXEXPORT remove_cv<const volatile T> { typedef T type; };
+
+	// apply_cv
+	// add const and/or volatile back to type.
+	template <class T, class U, bool = is_const<typename remove_reference<T>::type>::value,
+                                bool = is_volatile<typename remove_reference<T>::type>::value>
+	struct _UCXXEXPORT apply_cv { typedef U type; };
+
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T,  U, true, false>  { typedef const U type; };
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T,  U, false, true>  { typedef volatile U type; };
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T,  U, true, true>   { typedef const volatile U type; };
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T,  U, false, false> { typedef U type; };
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T&, U, true, false>  { typedef const U& type; };
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T&, U, false, true>  { typedef volatile U& type; };
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T&, U, true, true>   { typedef const volatile U& type; };
+	template <class T, class U> struct _UCXXEXPORT apply_cv<T&, U, false, false> { typedef U& type; };
+
+	// is_integer
 	template <class I> class _UCXXEXPORT __is_integer{
 	public:
 		typedef false_type value;
