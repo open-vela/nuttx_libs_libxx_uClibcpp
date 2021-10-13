@@ -76,6 +76,18 @@ namespace std{
 	template <class T, class U> struct _UCXXEXPORT apply_cv<T&, U, true, true>   { typedef const volatile U& type; };
 	template <class T, class U> struct _UCXXEXPORT apply_cv<T&, U, false, false> { typedef U& type; };
 
+	template <class T> struct _UCXXEXPORT make_unsigned_impl              { typedef T type; };
+	template <> struct _UCXXEXPORT make_unsigned_impl<char>               { typedef unsigned char      type; };
+	template <> struct _UCXXEXPORT make_unsigned_impl<signed char>        { typedef unsigned char      type; };
+	template <> struct _UCXXEXPORT make_unsigned_impl<signed short>       { typedef unsigned short     type; };
+	template <> struct _UCXXEXPORT make_unsigned_impl<signed int>         { typedef unsigned int       type; };
+	template <> struct _UCXXEXPORT make_unsigned_impl<signed long>        { typedef unsigned long      type; };
+	template <> struct _UCXXEXPORT make_unsigned_impl<signed long long>   { typedef unsigned long long type; };
+
+	template <class T> struct _UCXXEXPORT make_unsigned{
+		typedef typename apply_cv<T, typename make_unsigned_impl<typename remove_cv<T>::type>::type>::type type;
+	};
+
 	// is_integer
 	template <class I> class _UCXXEXPORT __is_integer{
 	public:
