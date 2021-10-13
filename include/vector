@@ -175,6 +175,14 @@ namespace std{
 			return const_reverse_iterator(begin());
 		}
 
+		inline const_iterator cbegin() const{ // C++11
+			return begin();
+		}
+
+		inline const_iterator cend() const{ // C++11
+			return end();
+		}
+
 		inline size_type size() const{
 			return elements;
 		}
