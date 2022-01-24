@@ -60,4 +60,5 @@ int main() {
 
         TestFramework::results();
 
+	return 0;
 }
