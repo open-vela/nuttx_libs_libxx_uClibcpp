@@ -30,7 +30,7 @@ bool canForwardIterateCorrectly(){
 	return false;
 }
 
-bool canCompareConstNonConstIter() {
+static bool canCompareConstNonConstIter() {
 	std::map<long, double> m;
 	m[5] = 2.3;
 	m[6] = 3.3;
@@ -139,7 +139,7 @@ bool canSubscriptWithoutExtraObjectCreation() {
 }
 
 
-int main(){
+extern "C" int main(){
 	std::map<std::string, double> test;
 	std::map<std::string, double>::iterator i, j;
 	std::map<std::string, double>::const_iterator k;

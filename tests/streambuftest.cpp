@@ -2,7 +2,7 @@
 #include <fstream>
 
 
-int main(){
+extern "C" int main(){
 	//We will work on the stream buffer for std::cin
 	std::streambuf * buf;
 	buf = std::cin.rdbuf();

@@ -65,7 +65,7 @@ private:
 	long int q;
 };
 
-int main(){
+extern "C" int main(){
 	Foo result;
 	Foo a(0);
 	Foo b(1);

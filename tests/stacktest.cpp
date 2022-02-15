@@ -55,7 +55,7 @@ bool checkStackEquality(){
 }
 
 
-int main(){
+extern "C" int main(){
 
 	std::cout<<"Starting stack test" << std::endl;
 

@@ -206,7 +206,7 @@ bool checkpair_opsReplacementAssignment(){
 }
 
 
-int main(){
+extern "C" int main(){
 	TestFramework::init();
 
 	TestFramework::AssertReturns<bool>(checkInvalidrel_ops_not_equals, false);

@@ -3,7 +3,7 @@
 #include <iterator>
 
 
-int main(){
+extern "C" int main(){
 	char buffer [5];
 	int i = 0;
 

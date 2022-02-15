@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
 
-int main(){
+extern "C" int main(){
 	std::cout << "Beginning sstream test\n";
 	
 	std::stringstream a;

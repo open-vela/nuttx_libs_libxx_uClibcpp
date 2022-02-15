@@ -3,7 +3,7 @@
 
 std::auto_ptr<int> intMaker();
 
-int main(){
+extern "C" int main(){
 	std::auto_ptr<int> a(new int (12));
 	if(0 == a.get()){
 		printf("a pointer is zero (BAD)\n");

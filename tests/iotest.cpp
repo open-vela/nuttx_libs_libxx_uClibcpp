@@ -66,7 +66,7 @@ void testFieldWidth() {
 	std::cout.width(ioswidth_backup);
 }
 
-int main(){
+extern "C" int main(){
 //	double q;
 //	std::cin >> q;
 

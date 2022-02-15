@@ -2,7 +2,7 @@
 #include <iostream>
 #include <locale.h>
 
-int main(){
+extern "C" int main(){
 	setlocale(LC_ALL, "en_US.utf8");
 
 	std::wcout.imbue( std::locale("en_US.utf8") );

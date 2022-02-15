@@ -64,7 +64,7 @@ bool canSwapBinary(){
 	return true;
 }
 
-bool canCompareConstNonConstIter() {
+static bool canCompareConstNonConstIter() {
 	std::deque<long> d;
 	d.push_back(5);
 	d.push_back(6);
@@ -86,7 +86,7 @@ bool canCompareConstNonConstIter() {
 	return true;
 }
 
-int main(){
+extern "C" int main(){
 	std::deque<double> test;
 	std::deque<double>::iterator i,j;
 	unsigned int k;

@@ -3,7 +3,7 @@
 #include <sstream>
 
 
-int main(){
+extern "C" int main(){
 	std::bitset<10> a;
 	std::cout << a.to_string<char, std::char_traits<char>, std::allocator<char> >() << std::endl;
 

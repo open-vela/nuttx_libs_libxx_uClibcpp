@@ -51,7 +51,7 @@ void print_array(std::string s, std::valarray<long double>& a) {
 }
 #endif
 
-int main(){
+extern "C" int main(){
 
 	std::valarray<int> a(10);
 	a[0] = 0;

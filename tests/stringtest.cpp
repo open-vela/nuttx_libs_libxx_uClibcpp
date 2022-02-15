@@ -438,7 +438,7 @@ bool checkAssignIterator() {
 	return b == "is is a ";
 }
 
-int main(){
+extern "C" int main(){
 	TestFramework::init();
 
 	std::string a("Testing string constructor");

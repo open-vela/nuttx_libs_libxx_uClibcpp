@@ -147,7 +147,7 @@ static bool erase_both_iters() {
 }
 
 
-int main(){
+extern "C" int main(){
 
         TestFramework::init();
 

@@ -50,7 +50,7 @@ bool canInsertIntoVectorInMap() {
 }
 
 
-int main() {
+extern "C" int main() {
 
 	std::cout << "Beginning combo tests" << std::endl;
 

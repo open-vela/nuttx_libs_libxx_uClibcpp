@@ -21,7 +21,7 @@ public:
 };
 
 
-int main(){
+extern "C" int main(){
 	std::cout << "Starting set test\n";
 	std::set<int> a;
 	std::vector<int> c;

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <numeric>
 
-int main(){
+extern "C" int main(){
 
 	std::vector<double> src;
 	std::vector<double> dest;

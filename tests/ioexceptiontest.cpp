@@ -28,7 +28,7 @@ void no_found_throws(){
 	return;
 }
 
-int main(){
+extern "C" int main(){
 	std::cout << "Beginning ioexception test" << std::endl;
 
 	TestFramework::init();

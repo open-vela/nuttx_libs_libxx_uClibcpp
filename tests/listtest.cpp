@@ -18,7 +18,7 @@ public:
 };
 
 
-int main(){
+extern "C" int main(){
 	std::string test;
 	std::list<double>temp(5, 12.0);
 	std::list<double> a;

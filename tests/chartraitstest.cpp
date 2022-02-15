@@ -2,7 +2,7 @@
 
 template <class T> void testClass(std::string tname);
 
-int main(){
+extern "C" int main(){
 	testClass<char>("char");
 	return 0;
 }

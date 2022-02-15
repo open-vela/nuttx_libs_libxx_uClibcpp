@@ -604,7 +604,7 @@ bool checkMinLess(){
 	return std::min(3, 5, std::less<int>()) == 3;
 }
 
-int main(){
+extern "C" int main(){
 	std::cout << "Beginning algorithm test" << std::endl;
 
         TestFramework::init();

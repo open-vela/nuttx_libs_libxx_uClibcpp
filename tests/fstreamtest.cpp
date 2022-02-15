@@ -5,7 +5,7 @@ unsigned char correctValue(unsigned long int pos);
 bool testIFStreamUnderflowOnUnopened();
 
 
-int main()
+extern "C" int main()
 {
 	std::ofstream outFile("fstreamtest.out", std::ios::out);
 	outFile <<  "output data from fstreamtest" ;

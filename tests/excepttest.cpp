@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <cstring>
 
-int main(){
+extern "C" int main(){
 	printf("Starting exception testing\n");
 
 	try{

@@ -44,7 +44,7 @@ public:
 };
 
 
-int main(){
+extern "C" int main(){
 	test * temp = new test;
 	temp->a = 5;
 	delete temp;

@@ -25,7 +25,7 @@ public:
 	}
 };
 
-bool canCompareConstNonConstIter() {
+static bool canCompareConstNonConstIter() {
 	std::vector<long> v;
 	v.push_back(5);
 	v.push_back(6);
@@ -48,7 +48,7 @@ bool canCompareConstNonConstIter() {
 }
 
 
-int main(){
+extern "C" int main(){
 	std::vector<char, std::allocator<char> > ctest;
 	std::string stest;
 	ctest.push_back('t');
