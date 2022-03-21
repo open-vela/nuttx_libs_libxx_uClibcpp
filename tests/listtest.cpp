@@ -8,6 +8,9 @@ public:
 	virtual void write(){
 		std::cout << "testClass::write()" << std::endl;
 	}
+	virtual ~testClass(){
+
+	}
 };
 
 class testSubClass : public testClass{

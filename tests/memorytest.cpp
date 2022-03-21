@@ -47,8 +47,8 @@ extern "C" int main(){
 		printf("c pointer is non-zero (BAD)\n");
 	}
 
-	std::auto_ptr<int> x( new int(5) );
-	std::auto_ptr<int> y( std::auto_ptr<int>( x ) );
+	std::auto_ptr<int> x{ new int(5) };
+	std::auto_ptr<int> y{ std::auto_ptr<int>( x ) };
 
 
 	return 0;

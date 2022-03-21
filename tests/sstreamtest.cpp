@@ -149,8 +149,8 @@ extern "C" int main(){
 		{2, "1", "0", 0, 1},
 		{2, "2", "0", 0, 1},
 	};
-	for (unsigned int i = 0; i < ARRAY_SIZE(tests); i++) {
-		struct tests_s *test = tests + i;
+	for (unsigned int j = 0; j < ARRAY_SIZE(tests); j++) {
+		struct tests_s *test = tests + j;
 		std::string brief;
 		std::stringstream ss;
 		bool b;

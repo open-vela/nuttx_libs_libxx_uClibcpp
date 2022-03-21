@@ -50,36 +50,36 @@ extern "C" int main(){
 	delete temp;
 	temp = 0;
 
-	temp = new test[25];
-	delete [] temp;
-	temp = 0;
+	test *temp_1 = new test[25];
+	delete [] temp_1;
+	temp_1 = 0;
 
-	base * b = new base;
-	b->print();
-	delete b;
-	b=0;
+	base * b_0 = new base;
+	b_0->print();
+	delete b_0;
+	b_0=0;
 
-	b = new base[3];
+	base *b_1 = new base[3];
 	for(int i = 0; i < 3; ++i){
-		b[i].print();
+		b_1[i].print();
 	}
-	delete [] b;
-	b = 0;
+	delete [] b_1;
+	b_1 = 0;
 
-	b = new sub;
-	b->print();
-	delete b;
-	b = 0;
+	base *b_3 = new sub;
+	b_3->print();
+	delete b_3;
+	b_3 = 0;
 
 	//We can only create one because we can't step through the array properly
-	b = new sub[1];
-	b[0].print();
-	delete [] b;
-	b = 0;
+	base *b_4 = new sub[1];
+	b_4[0].print();
+	delete [] b_4;
+	b_4 = 0;
 
 	printf("Testing nothrow new\n");
 
-	b = new(std::nothrow) base;
+	base *b = new(std::nothrow) base;
 
 	printf("Checking allocator\n");
 	std::allocator<base> al;

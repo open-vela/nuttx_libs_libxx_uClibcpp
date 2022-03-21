@@ -32,15 +32,14 @@ static bool canCompareConstNonConstIter() {
 	v.push_back(7);
 	std::vector<long>::const_iterator i = v.begin();
 	std::vector<long>::iterator j = v.begin();
-	std::vector<long>::iterator k = v.end();
 
-	if (i == i && i == j && j == i && j == j) {
+	if (i == j && j == i) {
 		// Do nothing
 	} else {
 		return false;
 	}
 
-	if (i != i || i != j || j != i || j != j) {
+	if (i != j || j != i) {
 		return false;
 	}
 
@@ -215,7 +214,7 @@ extern "C" int main(){
 	std::cout << "Vector size: 2" << std::endl;
 	std::cout << "Vector size: " << mcp.size() << std::endl;
 
-	for(int j = 0; j < 100; ++j){
+	for(int k = 0; k < 100; ++k){
 		mcp.push_back(&m2);
 	}
 
