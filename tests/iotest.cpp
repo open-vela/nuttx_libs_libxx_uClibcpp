@@ -23,7 +23,7 @@ std::basic_ios<char, std::char_traits<char> > &
 }
 
 bool canSeeIosBaseProperties() {
-	std::ios_base::openmode a;
+	std::ios_base::openmode a __attribute__((unused));
 	a = std::ios_base::app;
 	a = std::ios_base::in;
 	a = std::ios_base::out;

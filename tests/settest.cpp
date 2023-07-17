@@ -26,7 +26,7 @@ extern "C" int main(){
 	std::set<int> a;
 	std::vector<int> c;
 	std::vector<int>::iterator k, l;
-	int z;
+	int z __attribute__((unused));
 
 	c.clear();
 

@@ -412,7 +412,7 @@ bool testSort() {
 	};
 #endif
 	std::vector<int> a;
-	std::vector<int>::iterator i;
+	std::vector<int>::iterator i __attribute__((unused));
 
 	a.push_back(5);
 	a.push_back(2);
